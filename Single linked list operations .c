@@ -1,3 +1,4 @@
+//85 is biggest
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -96,33 +97,38 @@ Node* insertAtPosition(Node* head, int newData, int position) {
 }
 
 // Bağlı listedeki belirli bir konumdan eleman silme
-Node* deleteFromPosition(Node* head, int position) {
+Node* deleteByValue(Node* head, int value) {
     if (head == NULL) {
-        return NULL; // Eğer liste boşsa
-    }
-
-    // Başındaki düğümü sil
-    if (position == 0) {
-        return deleteFromBeginning(head);
+        return head; // Eğer liste boşsa
     }
 
     Node* temp = head;
-    for (int i = 0; temp != NULL && i < position - 1; i++) {
+    // Eğer silinmesi gereken düğüm baştaysa
+    if (head->data == value) {
+        Node* temp = head;
+        head = head->next; // Başın bir sonrakine kaydırılması
+        free(temp); // Eski baş düğümü serbest bırak
+        return head;
+    }
+
+    // Listede gezin ve değeri bulmaya çalış
+    while (temp->next != NULL && temp->next->data != value) {
         temp = temp->next;
     }
 
-    // Eğer temp null ise pozisyon listedeki toplam düğüm sayısından büyük demektir
-    if (temp == NULL || temp->next == NULL) {
-        return head; // Geçersiz pozisyon, değişiklik yapma
+    // Eğer temp->next NULL ise, değer listede yoktur
+    if (temp->next == NULL) {
+        return head; // Değer bulunamadı, listeyi olduğu gibi döndür
     }
 
-    // Silinecek düğümü bul
-    Node* next = temp->next->next; // Silinecek düğümün bir sonraki düğümünü kaydet
-    free(temp->next); // Silinecek düğümü serbest bırak
-    temp->next = next; // Geçerli düğümün next'ini güncelle
+    // Değeri bulduk, silme işlemini yap
+    Node* deleted = temp->next;
+    temp->next = deleted->next; // Silinen düğümden bir sonrakine geçiş
+    free(deleted); // Düğümü serbest bırak
 
     return head; // Başın adresini döndür
 }
+
 
 // Bağlı listedeki tüm elemanları yazdırma
 void printList(Node* head) {
@@ -155,7 +161,7 @@ int main(void) {
         printf("3. Belirli bir pozisyona eleman ekle\n");
         printf("4. Baştan eleman sil\n");
         printf("5. Sondan eleman sil\n");
-        printf("6. Belirli bir pozisyondan eleman sil\n");
+        printf("6. Belirli bir dataya sahip elemanı sil\n");
         printf("7. Listeyi yazdır\n");
         printf("8. Liste eleman sayısını göster\n");
         printf("0. Çıkış\n");
@@ -187,9 +193,9 @@ int main(void) {
                 head = deleteFromEnd(head);
                 break;
             case 6:
-                printf("Silinecek pozisyonu girin: ");
+                printf("hangi dataya sahibi olan silinecek(data gir): ");
                 scanf("%d", &position);
-                head = deleteFromPosition(head, position);
+                head = deleteByValue(head, position);
                 break;
             case 7:
                 printList(head);
