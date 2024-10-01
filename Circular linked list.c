@@ -24,7 +24,8 @@ Node* insertAtBeginning(Node* head, int newData) {
     }
     temp->next = newNode; // Son düğümün next'i yeni düğüme işaret eder
     newNode->next = head; // Yeni düğüm başa işaret eder
-    return newNode; // Yeni başı döndür
+    head = newNode; // listenin basi olarak newnode doner eger bu olmasa sonuna eklemis olurduk
+    return head;
 }
 
 // Dairesel bağlı listenin sonuna eleman ekleme
@@ -237,5 +238,6 @@ int main(void) {
         }
     } while (choice != 0);
 
-    return 0; // Belleği serbest bırakma kısmını eklemek isteyebilirsiniz.
+    return 0; // Programı sonlandır
+    
 }
