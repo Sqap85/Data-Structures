@@ -120,29 +120,32 @@ Node* deleteByValue(Node* head, int value) {
     if (head == NULL) {
         return head; // Eğer liste boşsa, null döndür
     }
-
-    Node* temp = head;
-    Node* prev = NULL;
-
-    // Eğer silinmesi gereken düğüm baştaysa
-    if (head->data == value) {
-        return deleteFromBeginning(head);
+    if (head -> data == value) {
+        if (head -> next == head) {
+            head = NULL;
+            free(head);
+            return head;
+        }
+        Node *count = head;
+        while (count ->next != head) {
+            count = count -> next;
+        }
+        Node *deleted = head;
+        count -> next = deleted -> next;
+        head = head -> next;
+        free(deleted);
+        return head;
     }
-
-    do {
-        prev = temp;
-        temp = temp->next;
-    } while (temp != head && temp->data != value); // Değeri bulana veya başa geri dönene kadar
-
-    // Eğer değer bulunamadıysa
-    if (temp == head) {
-        return head; // Değer bulunamadı, listeyi olduğu gibi döndür
+    Node *count = head;
+    while (count ->next -> data != value && count -> next!= NULL) {
+        count = count -> next;
     }
-
-    // Değeri bulduk, silme işlemini yap
-    prev->next = temp->next; // Silinen düğümden bir sonrakine geçiş
-    free(temp); // Düğümü serbest bırak
-    return head; // Başın adresini döndür
+    if (count -> next == NULL) { return head;}// value degeri listede yok
+        
+    Node *deleted = count -> next;
+    count -> next = deleted -> next;
+    free(deleted);
+    return head;
 }
 
 // Dairesel bağlı listedeki tüm elemanları yazdırma
