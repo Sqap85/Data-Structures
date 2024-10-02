@@ -122,36 +122,33 @@ Node* insertAfterValue(Node* head, int targetData, int newData) {
 
 // Çift bağlı listede belirli bir dataya sahip düğümü silme
 Node* deleteByValue(Node* head, int value) {
-    if (head == NULL) {
+    if (head == NULL) { // silinecek deger yok
         return head;
     }
-
-    Node* temp = head;
 
     // Eğer silinecek düğüm baştaysa
     if (head->data == value) {
-        head = deleteFromBeginning(head);
+        Node *deleted =head;
+        head = head -> next;
+        if (head!=NULL) { head -> prev = NULL;}
+        free(deleted);
         return head;
     }
-
-    // Silinecek düğümü bulana kadar listede gezin
-    while (temp != NULL && temp->data != value) {
-        temp = temp->next;
+    Node *count = head;
+    // Silinecek düğümü bulana kadar listede gezin bir node geriden gidiyoruz
+    while (count ->next -> data != value && count ->next !=NULL) {
+        count = count->next;
     }
 
-    if (temp == NULL) {
+    if (count->next == NULL) {
         return head; // Değer listede yok
     }
 
-    if (temp->next != NULL) {
-        temp->next->prev = temp->prev;
-    }
-
-    if (temp->prev != NULL) {
-        temp->prev->next = temp->next;
-    }
-
-    free(temp);
+    Node *deleted = count -> next;
+    count -> next = deleted ->next;
+    if (deleted ->next !=NULL) { deleted ->next ->prev = count;}
+     
+    free(deleted);
     return head;
 }
 
