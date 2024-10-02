@@ -4,11 +4,6 @@
 
 // struct Node'a typedef kullanarak yeni isim veriyoruz: Node
 typedef struct Node {
-#include <stdio.h>
-#include <stdlib.h>
-
-// struct Node'a typedef kullanarak yeni isim veriyoruz: Node
-typedef struct Node {
     int data;
     struct Node* next;
 } Node;
