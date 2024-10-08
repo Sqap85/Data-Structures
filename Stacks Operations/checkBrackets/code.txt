@@ -1,0 +1,9 @@
+int main() {
+    int x = 5;
+    if (x > 0) {
+        printf("Pozitif\n");
+    } else {
+        printf("Negatif\n";
+    }
+    return 0;
+}
