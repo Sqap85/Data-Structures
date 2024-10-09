@@ -97,7 +97,7 @@ void checkBracketsInFile(const char* filename) {
 }
 
 int main(void) {
-    const char* filename = "/Users/enginelibol/Desktop/veri yapilari/Stacks Operations/checkBrackets/code.txt"; // Dosya yolu (doğru yolu belirtin)
+    const char* filename = "/Users/85/is/biggest/ok?/code.txt"; // Dosya yolu (doğru yolu belirtin)
     checkBracketsInFile(filename);
     return 0;
 }
