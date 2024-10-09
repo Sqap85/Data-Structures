@@ -1,0 +1,30 @@
+1.	Her karakteri soldan sağa sırayla tara.
+	2.	Eğer karakter bir operand ise, doğrudan postfix ifadesine ekle.
+	3.	Eğer karakter bir operatör ise:
+	•	Yığının boş olup olmadığını kontrol et. Eğer boş değilse, yığının en üstündeki operatörün önceliği kontrol edilir.
+	•	Yığının en üstündeki operatör daha yüksek veya eşit önceliğe sahipse, bu operatör yığından çıkarılır ve postfix ifadesine eklenir.
+	•	Sonra mevcut operatör yığına eklenir.
+	4.	Eğer karakter sol parantez ise, yığına ekle.
+	5.	Eğer karakter sağ parantez ise, yığındaki sol parantez bulunana kadar operatörleri yığından çıkarıp postfix ifadesine ekle. Sol parantezi yığından çıkar, fakat postfix ifadesine ekleme.
+	6.	İfadenin sonuna ulaştığında, yığındaki tüm operatörleri postfix ifadesine ekle.
+
+Örnek:
+
+İnfix ifade:
+A + B * (C - D)
+
+	•	A operandı postfix’e eklenir: A
+	•	+ operatörü yığına eklenir.
+	•	B operandı postfix’e eklenir: A B
+	•	* operatörü yığına eklenir (önceliği +’dan yüksek).
+	•	( yığına eklenir.
+	•	C operandı postfix’e eklenir: A B C
+	•	- operatörü yığına eklenir (parantezin içinde olduğundan yığındaki operatörler dikkate alınmaz).
+	•	D operandı postfix’e eklenir: A B C D
+	•	) parantezi kapatır ve yığındaki - operatörü postfix’e eklenir: A B C D -
+	•	( yığından çıkarılır.
+	•	Şimdi yığındaki * operatörü postfix’e eklenir: A B C D - *
+	•	Son olarak + yığından postfix’e eklenir: A B C D - * +
+
+Sonuç postfix ifade:
+A B C D - * +
