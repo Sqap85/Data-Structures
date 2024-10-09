@@ -1,4 +1,4 @@
-1.	Her karakteri soldan sağa sırayla tara.
+	1.	Her karakteri soldan sağa sırayla tara.
 	2.	Eğer karakter bir operand ise, doğrudan postfix ifadesine ekle.
 	3.	Eğer karakter bir operatör ise:
 	•	Yığının boş olup olmadığını kontrol et. Eğer boş değilse, yığının en üstündeki operatörün önceliği kontrol edilir.
