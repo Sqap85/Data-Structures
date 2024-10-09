@@ -62,13 +62,14 @@ int isOperand(char ch) {
 
 // Infix'ten Postfix'e dönüştürme
 void infixToPostfix(char* infix, char* postfix) {
-    Stack s;
+    Stack s; 
     initStack(&s);
     int i = 0, j = 0;
     char ch;
 
-    while ((ch = infix[i++]) != '\0') {
-        // Eğer operand ise, doğrudan postfix dizisine ekle
+    while ((ch = infix[i++]) != '\0') {// infixteki her eleman kontrol edilene kadar
+
+        // Eğer operand (harf yada sayi) ise, doğrudan postfix dizisine ekle
         if (isOperand(ch)) {
             postfix[j++] = ch;
         }
@@ -85,10 +86,10 @@ void infixToPostfix(char* infix, char* postfix) {
         }
         // Eğer operatörse
         else if (isOperator(ch)) {
-            while (!isEmpty(&s) && precedence(peek(&s)) >= precedence(ch)) {
-                postfix[j++] = pop(&s);
+            while (!isEmpty(&s) && precedence(peek(&s)) >= precedence(ch)) { // islem onceligi kontrolu stackdeki top eleman yeni operatorden oncelikli ise 
+                postfix[j++] = pop(&s); // top elemani postfixe at 
             }
-            push(&s, ch);
+            push(&s, ch);// yeni operatoru ekle (top oldu)
         }
     }
 
