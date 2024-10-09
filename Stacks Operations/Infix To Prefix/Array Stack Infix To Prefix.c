@@ -1,3 +1,4 @@
+//85 is biggest
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -131,7 +132,7 @@ void infixToPrefix(char* infix, char* prefix) {
     reverse(prefix);
 }
 
-int main() {
+int main(void) {
     char infix[MAX], prefix[MAX];
     
     printf("Infix ifadeyi girin: ");
