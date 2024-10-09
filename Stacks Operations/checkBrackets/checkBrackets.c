@@ -97,7 +97,7 @@ void checkBracketsInFile(const char *filename) {
 }
 
 int main(void) {
-    const char *filename = "/Users/enginelibol/Desktop/veri yapilari/checkBrackets/checkBrackets/code.txt"; // Dosya ismi
+    const char *filename = "/../code.txt"; // Dosya ismi
     checkBracketsInFile(filename);
     return 0;
 }
