@@ -1,0 +1,26 @@
+1.	Yığın Oluşturma:
+	•	Bir yığın (stack) veri yapısı oluşturun. Yığın, açma parantezlerini saklamak için kullanılacaktır.
+	2.	Dosya Okuma:
+	•	Belirtilen dosyayı açın ve dosyanın içeriğini karakter karakter okuyun.
+	3.	Karakter Kontrolü:
+	•	Her bir karakter için aşağıdaki işlemleri gerçekleştirin:
+	•	Açma Parantezi Kontrolü:
+	•	Eğer karakter bir açma parantezi ((, {, [) ise:
+	•	Bu karakteri yığına ekleyin (push işlemi).
+	•	Kapama Parantezi Kontrolü:
+	•	Eğer karakter bir kapama parantezi (), }, ]) ise:
+	•	Yığın boşsa:
+	•	Fazla kapama parantezi hatası verin.
+	•	Yığın boş değilse:
+	•	Yığından en üstteki karakteri çıkarın (pop işlemi).
+	•	Çıkarılan karakter ile kapama parantezinin eşleşip eşleşmediğini kontrol edin.
+	•	Eşleşmiyorsa:
+	•	Eşleşmeyen açma ve kapama parantezleri için hata mesajı verin.
+	4.	Dosya Kapatma:
+	•	Dosyayı kapatın.
+	5.	Son Kontrol:
+	•	Tüm karakterler okunduktan sonra:
+	•	Eğer yığın boş değilse:
+	•	Fazla açma parantezi hatası verin.
+	•	Eğer yığın boşsa:
+	•	Tüm parantezlerin doğru eşleştiği mesajını verin.
