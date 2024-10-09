@@ -1,4 +1,4 @@
-1.	İfadeyi Ters Çevirin:
+	1.	İfadeyi Ters Çevirin:
 	•	Verilen infix ifadeyi ters çevirin. Bu, işlemi daha kolay hale getirmek için gereklidir. Örneğin:
 	•	A + B ifadesi B + A olur.
 	•	Ters çevrilen ifadede parantezlerin yerini değiştirin (sol parantezler sağ, sağ parantezler sol olur). Örneğin: A + (B * C) ifadesi (C * B) + A olur.
