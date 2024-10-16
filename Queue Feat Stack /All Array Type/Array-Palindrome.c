@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,24 +40,38 @@ int isQueueEmpty(Queue *q) {
     return (q->counter == 0);
 }
 
+int isQueueFull(Queue *q){
+    return (q->counter == MAX);
+}
+
 // Kuyruğa eleman ekleme (Enqueue)
-void enqueue(Queue *q, char value) {
-    if (q->counter < MAX) {
-        q->rear = (q->rear + 1) % MAX;
-        q->data[q->rear] = value;
+void enqueue(Queue *q, int value) {
+    if (isQueueFull(q)) {
+        printf("Kuyruk dolu!\n");
+    } else {
+        q->rear++;
         q->counter++;
+        if (q->rear == MAX) {
+            q->rear = 0;
+        }
+        q->data[q->rear] = value;
     }
 }
 
 // Kuyruktan eleman çıkarma (Dequeue)
-char dequeue(Queue *q) {
-    if (!isQueueEmpty(q)) {
-        char value = q->data[q->front];
-        q->front = (q->front + 1) % MAX;
+int dequeue(Queue *q) {
+    if (isQueueEmpty(q)) {
+        printf("Kuyruk boş!\n");
+        return -1;
+    } else {
+        int x = q->data[q->front];
+        q->front++;
         q->counter--;
-        return value;
+        if (q->front == MAX) {
+            q->front = 0;
+        }
+        return x;
     }
-    return '\0';  // Kuyruk boşsa null karakter döndür
 }
 
 // Yığına eleman ekleme (Push)
@@ -115,4 +130,3 @@ int main() {
 
     return 0;
 }
-
