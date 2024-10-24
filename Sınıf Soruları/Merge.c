@@ -94,7 +94,7 @@ int main() {
     printf("Birleştirilmiş liste: ");
     printList(newHead);
 
-    // Belleği serbest bırakmayı unutma
+    // Belleği serbest bırakmak
     while (newHead != NULL) {
         Node* temp = newHead;
         newHead = newHead->next;
