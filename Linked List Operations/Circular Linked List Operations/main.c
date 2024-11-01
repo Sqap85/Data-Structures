@@ -9,7 +9,7 @@ typedef struct Node {
 } Node;
 
 // Dairesel bağlı listenin başına eleman ekleme
-Node* insertAtBeginning(Node* head, int newData) {
+Node* addFirst(Node* head, int newData) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = newData;
 
@@ -24,12 +24,12 @@ Node* insertAtBeginning(Node* head, int newData) {
     }
     temp->next = newNode; // Son düğümün next'i yeni düğüme işaret eder
     newNode->next = head; // Yeni düğüm başa işaret eder
-    head = newNode; // listenin basi olarak newnode doner eger bu olmasa sonuna eklemis olurduk
+    head = newNode; // Listenin başını yeni düğüm olarak ayarla
     return head;
 }
 
 // Dairesel bağlı listenin sonuna eleman ekleme
-Node* insertAtEnd(Node* head, int newData) {
+Node* addLast(Node* head, int newData) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     newNode->data = newData;
 
@@ -48,7 +48,7 @@ Node* insertAtEnd(Node* head, int newData) {
 }
 
 // Dairesel bağlı listenin başındaki düğümü silme
-Node* deleteFromBeginning(Node* head) {
+Node* removeFirst(Node* head) {
     if (head == NULL) {
         return NULL; // Eğer liste boşsa, null döndür
     }
@@ -72,7 +72,7 @@ Node* deleteFromBeginning(Node* head) {
 }
 
 // Dairesel bağlı listenin sonundaki düğümü silme
-Node* deleteFromEnd(Node* head) {
+Node* removeLast(Node* head) {
     if (head == NULL) {
         return NULL; // Eğer liste boşsa, null döndür
     }
@@ -116,34 +116,33 @@ Node* insertAfterValue(Node* head, int newData, int targetData) {
 }
 
 // Dairesel bağlı listedeki belirli bir değere sahip düğümü silme
-Node* deleteByValue(Node* head, int value) {
+Node* removeByValue(Node* head, int value) {
     if (head == NULL) {
         return head; // Eğer liste boşsa, null döndür
     }
-    if (head -> data == value) {
-        if (head -> next == head) {
-            head = NULL;
+    if (head->data == value) {
+        if (head->next == head) {
             free(head);
-            return head;
+            return NULL; // Baş olarak null döndür
         }
-        Node *count = head;
-        while (count ->next != head) {
-            count = count -> next;
+        Node* last = head;
+        while (last->next != head) {
+            last = last->next;
         }
-        Node *deleted = head;
-        count -> next = deleted -> next;
-        head = head -> next;
+        Node* deleted = head;
+        last->next = deleted->next;
+        head = head->next;
         free(deleted);
         return head;
     }
-    Node *count = head;
-    while (count ->next -> data != value && count -> next!= NULL) {
-        count = count -> next;
+    Node* temp = head;
+    while (temp->next != head && temp->next->data != value) {
+        temp = temp->next;
     }
-    if (count -> next == NULL) { return head;}// value degeri listede yok
-        
-    Node *deleted = count -> next;
-    count -> next = deleted -> next;
+    if (temp->next == head) { return head; } // value değeri listede yok
+
+    Node* deleted = temp->next;
+    temp->next = deleted->next;
     free(deleted);
     return head;
 }
@@ -151,7 +150,7 @@ Node* deleteByValue(Node* head, int value) {
 // Dairesel bağlı listedeki tüm elemanları yazdırma
 void printList(Node* head) {
     if (head == NULL) {
-        printf("List empty.\n");
+        printf("Liste boş.\n");
         return;
     }
 
@@ -160,7 +159,7 @@ void printList(Node* head) {
         printf("%d -> ", temp->data);
         temp = temp->next;
     } while (temp != head); // Dairenin başına geri dönene kadar
-    printf("(Head)\n"); // Baş düğümünü göster
+    printf("Head\n"); // Baş düğümünü göster
 }
 
 // Listede kaç düğüm var
@@ -201,12 +200,12 @@ int main(void) {
             case 1:
                 printf("Eklenecek veriyi girin: ");
                 scanf("%d", &data);
-                head = insertAtBeginning(head, data);
+                head = addFirst(head, data);
                 break;
             case 2:
                 printf("Eklenecek veriyi girin: ");
                 scanf("%d", &data);
-                head = insertAtEnd(head, data);
+                head = addLast(head, data);
                 break;
             case 3:
                 printf("Eklenecek veriyi girin: ");
@@ -216,15 +215,15 @@ int main(void) {
                 head = insertAfterValue(head, data, position);
                 break;
             case 4:
-                head = deleteFromBeginning(head);
+                head = removeFirst(head);
                 break;
             case 5:
-                head = deleteFromEnd(head);
+                head = removeLast(head);
                 break;
             case 6:
                 printf("Hangi dataya sahip olan silinecek(data gir): ");
                 scanf("%d", &position);
-                head = deleteByValue(head, position);
+                head = removeByValue(head, position);
                 break;
             case 7:
                 printList(head);
@@ -242,5 +241,5 @@ int main(void) {
     } while (choice != 0);
 
     return 0; // Programı sonlandır
-    
+}
 }
