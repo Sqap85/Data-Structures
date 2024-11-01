@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Bağlı liste düğümü yapısı (typedef ile)
+// Bağlı liste düğümü yapısı
 typedef struct Node {
     int data;
     struct Node* next;
