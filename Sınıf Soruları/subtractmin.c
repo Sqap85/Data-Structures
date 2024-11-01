@@ -24,7 +24,7 @@ node *subtractmin(node *head) {
     // Tüm düğümlerdeki değerlerden minimum değeri çıkarma
     temp = head;
     while (temp != NULL) {
-        temp->data = temp->data - min;
+        temp->data -= min;
         temp = temp->next;
     }
 
