@@ -1,4 +1,4 @@
-// 85 is biggest.
+//85 is biggest.
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -8,12 +8,21 @@ typedef struct Node {
     struct Node* next;
 } Node;
 
-// Yeni düğüm oluşturma
-Node* newNode(int data) {
-    Node* node = (Node*)malloc(sizeof(Node));
-    node->data = data;
-    node->next = NULL;
-    return node;
+// Bağlı listenin sonuna eleman ekleme ve yeni başı döndürme
+Node* addLast(Node* head, int newData) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    newNode->data = newData;
+    newNode->next = NULL;
+
+    if (head == NULL) {
+        return newNode; // Eğer liste boşsa, yeni düğümü baş olarak döndür
+    }
+    Node *temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next; // Son düğüme kadar git
+    }
+    temp->next = newNode; // Son düğümün next'ine yeni düğümü ekle
+    return head; // Başın adresini döndür
 }
 
 // Döngü olup olmadığını tespit eden Floyd’un Döngü Algoritması
@@ -45,11 +54,18 @@ void printList(Node* head) {
 
 // Ana fonksiyon
 int main(void) {
-    Node* head = newNode(1);
-    head->next = newNode(2);
-    head->next->next = newNode(3);
-    head->next->next->next = newNode(4);
-    head->next->next->next->next = newNode(5);
+    Node* head = NULL;
+
+    // Bağlı listeye eleman ekleme
+    head = addLast(head, 1);
+    head = addLast(head, 2);
+    head = addLast(head, 3);
+    head = addLast(head, 4);
+    head = addLast(head, 5);
+
+    // Bağlı listeyi yazdır
+    printf("Bağlı liste: ");
+    printList(head);
 
     // Döngü yaratmak için son düğümü ikinci düğüme bağla (test amaçlı)
     head->next->next->next->next->next = head->next;
@@ -60,6 +76,8 @@ int main(void) {
     } else {
         printf("Bağlı listede döngü yok!\n");
     }
+
+    // Bellek sızıntısını önlemek için her düğüm için free() kullanılması önerilir.
 
     return 0;
 }
