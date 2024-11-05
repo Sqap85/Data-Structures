@@ -35,8 +35,35 @@ int countNodes(RTREE root) {
     if (root == NULL) {
         return 0;  // Düğüm yoksa 0 döner
     }
-    // Düğüm sayısını, sol ve sağ alt ağaçların düğüm sayısı ile toplar
     return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
+// En küçük elemanı döndüren fonksiyon
+int findMin(RTREE root) {
+    if (root == NULL) {
+        printf("Ağaç boş!\n");
+        return -1; // Ağaç boşsa -1 döndür
+    }
+    RTREE current = root;
+    // En sol düğümü bulana kadar sola git
+    while (current->left != NULL) {
+        current = current->left;
+    }
+    return current->data;
+}
+
+// En büyük elemanı döndüren fonksiyon
+int findMax(RTREE root) {
+    if (root == NULL) {
+        printf("Ağaç boş!\n");
+        return -1; // Ağaç boşsa -1 döndür
+    }
+    RTREE current = root;
+    // En sağ düğümü bulana kadar sağa git
+    while (current->right != NULL) {
+        current = current->right;
+    }
+    return current->data;
 }
 
 // Inorder gezinme (Küçükten büyüğe sıralama)
@@ -91,6 +118,12 @@ int main() {
     // Düğüm sayısını hesapla ve yazdır
     int nodeCount = countNodes(root);
     printf("Düğüm sayısı: %d\n", nodeCount);
+
+    // En küçük ve en büyük elemanları bul ve yazdır
+    int minValue = findMin(root);
+    int maxValue = findMax(root);
+    printf("En küçük eleman: %d\n", minValue);
+    printf("En büyük eleman: %d\n", maxValue);
 
     return 0;
 }
