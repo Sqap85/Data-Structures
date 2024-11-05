@@ -67,7 +67,7 @@ int findMax(RTREE root) {
     return current->data;
 }
 
-// Inorder gezinme (Küçükten büyüğe sıralama)
+// Inorder gezinme (Küçükten büyüğe sıralama) (left-root-right)
 void inorder(RTREE root) {
     if (root != NULL) {
         inorder(root->left);
@@ -76,7 +76,7 @@ void inorder(RTREE root) {
     }
 }
 
-// Preorder gezinme
+// Preorder gezinme (root-left-right)
 void preorder(RTREE root) {
     if (root != NULL) {
         printf("%d ", root->data);
@@ -85,7 +85,7 @@ void preorder(RTREE root) {
     }
 }
 
-// Postorder gezinme
+// Postorder gezinme (left-right-root)
 void postorder(RTREE root) {
     if (root != NULL) {
         postorder(root->left);
