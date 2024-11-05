@@ -30,6 +30,15 @@ RTREE insert(RTREE root, int data) {
     return root;
 }
 
+// Düğüm sayısını döndüren fonksiyon
+int countNodes(RTREE root) {
+    if (root == NULL) {
+        return 0;  // Düğüm yoksa 0 döner
+    }
+    // Düğüm sayısını, sol ve sağ alt ağaçların düğüm sayısı ile toplar
+    return 1 + countNodes(root->left) + countNodes(root->right);
+}
+
 // Inorder gezinme (Küçükten büyüğe sıralama)
 void inorder(RTREE root) {
     if (root != NULL) {
@@ -57,7 +66,7 @@ void postorder(RTREE root) {
     }
 }
 
-int main(void) {
+int main() {
     RTREE root = NULL;
     root = insert(root, 50);
     insert(root, 30);
@@ -78,6 +87,10 @@ int main(void) {
     printf("Postorder traversal: ");
     postorder(root);
     printf("\n");
+
+    // Düğüm sayısını hesapla ve yazdır
+    int nodeCount = countNodes(root);
+    printf("Düğüm sayısı: %d\n", nodeCount);
 
     return 0;
 }
