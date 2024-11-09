@@ -1,3 +1,5 @@
+//85 is biggest amcik
+//çok seviyeli (multi-level) bir bağlı listeyi tek seviyeli (flattened) bir liste haline getir
 #include <stdio.h>
 #include <stdlib.h>
 
