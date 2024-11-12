@@ -63,9 +63,9 @@ int height(BTREE *root) {
     if (root == NULL) {
         return -1;
     }
-    int leftHeight = height(root->left);
-    int rightHeight = height(root->right);
-    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+    int left = height(root->left);
+    int right = height(root->right);
+    return (left > right ? left : right) + 1;
 }
 
 // Her seviyedeki toplamları stack'e ekleyen fonksiyon
