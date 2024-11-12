@@ -1,4 +1,4 @@
-//85 is biggest.
+// 85 is biggest
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -9,6 +9,26 @@ typedef struct node {
     // struct node* parent; (optional)
 } *RTREE;
 
+// Recursive olarak derinliği bulan fonksiyon
+int findDepth(RTREE root, int target, int level) {
+    if (root == NULL) {
+        return -1;  // Düğüm yoksa, geçerli derinlik (-1)
+    }
+
+    if (root->data == target) {
+        return level;  // Eğer hedef düğüm bulunduysa, derinliği döndür
+    }
+
+    // Sol alt ağacı kontrol et, derinliği 1 artırarak recursive olarak çağır
+    int leftDepth = findDepth(root->left, target, level + 1);
+    if (leftDepth != -1) {
+        return leftDepth;  // Sol alt ağaçta bulunduysa, sol derinliği döndür
+    }
+
+    // Sağ alt ağacı kontrol et, derinliği 1 artırarak recursive olarak çağır
+    return findDepth(root->right, target, level + 1);
+}
+
 // Function to find the height of the tree
 int getHeight(RTREE root) {
     if (root == NULL) {
@@ -17,22 +37,6 @@ int getHeight(RTREE root) {
     int leftHeight = getHeight(root->left);
     int rightHeight = getHeight(root->right);
     return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
-}
-
-// Function to find the depth of a node
-int getDepth(RTREE root, int data) {
-    int depth = 0;
-    while (root != NULL) {
-        if (data == root->data) {
-            return depth;
-        } else if (data < root->data) {
-            root = root->left;
-        } else {
-            root = root->right;
-        }
-        depth++;
-    }
-    return -1; // Düğüm bulunamadıysa -1 döndür
 }
 
 // Yeni düğüm oluşturma fonksiyonu
@@ -158,7 +162,7 @@ int main() {
 
     // Belirli bir düğümün derinliğini bul ve yazdır
     int valueToFindDepth = 40; // Örnek olarak 40 düğümünün derinliğini bulalım
-    int depth = getDepth(root, valueToFindDepth);
+    int depth = findDepth(root, valueToFindDepth, 0);
     if (depth != -1) {
         printf("%d düğümünün derinliği: %d\n", valueToFindDepth, depth);
     } else {
