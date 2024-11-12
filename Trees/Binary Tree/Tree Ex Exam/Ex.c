@@ -61,7 +61,7 @@ int levelSum(BTREE *root, int level) {
 // Ağacın yüksekliğini bulma
 int height(BTREE *root) {
     if (root == NULL) {
-        return -1;
+        return 0;
     }
     int left = height(root->left);
     int right = height(root->right);
