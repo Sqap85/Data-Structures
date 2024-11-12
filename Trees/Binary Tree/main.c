@@ -6,8 +6,34 @@ typedef struct node {
     int data;
     struct node* left;
     struct node* right;
- // struct node* parent; (optional)
+    // struct node* parent; (optional)
 } *RTREE;
+
+// Function to find the height of the tree
+int getHeight(RTREE root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int leftHeight = getHeight(root->left);
+    int rightHeight = getHeight(root->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+// Function to find the depth of a node
+int getDepth(RTREE root, int data) {
+    int depth = 0;
+    while (root != NULL) {
+        if (data == root->data) {
+            return depth;
+        } else if (data < root->data) {
+            root = root->left;
+        } else {
+            root = root->right;
+        }
+        depth++;
+    }
+    return -1; // Düğüm bulunamadıysa -1 döndür
+}
 
 // Yeni düğüm oluşturma fonksiyonu
 RTREE newNode(int data) {
@@ -125,6 +151,19 @@ int main() {
     int maxValue = findMax(root);
     printf("En küçük eleman: %d\n", minValue);
     printf("En büyük eleman: %d\n", maxValue);
+
+    // Ağacın yüksekliğini bul ve yazdır
+    int height = getHeight(root);
+    printf("Ağacın yüksekliği: %d\n", height);
+
+    // Belirli bir düğümün derinliğini bul ve yazdır
+    int valueToFindDepth = 40; // Örnek olarak 40 düğümünün derinliğini bulalım
+    int depth = getDepth(root, valueToFindDepth);
+    if (depth != -1) {
+        printf("%d düğümünün derinliği: %d\n", valueToFindDepth, depth);
+    } else {
+        printf("%d düğümü ağaçta bulunamadı.\n", valueToFindDepth);
+    }
 
     return 0;
 }
