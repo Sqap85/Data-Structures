@@ -105,29 +105,29 @@ int findMax(RTREE root) {
 
 // Inorder gezinme (Küçükten büyüğe sıralama) (left-root-right)
 void inorder(RTREE root) {
-    if (root == NULL) { return;}
+    if (root != NULL) {
         inorder(root->left);
         printf("%d ", root->data);
         inorder(root->right);
-    
+    }
 }
 
 // Preorder gezinme (root-left-right)
 void preorder(RTREE root) {
-    if (root == NULL) { return;}
+    if (root != NULL) {
         printf("%d ", root->data);
         preorder(root->left);
         preorder(root->right);
-    
+    }
 }
 
 // Postorder gezinme (left-right-root)
 void postorder(RTREE root) {
-    if (root == NULL) { return;}
+    if (root != NULL) {
         postorder(root->left);
         postorder(root->right);
         printf("%d ", root->data);
-    
+    }
 }
 
 int main() {
