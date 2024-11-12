@@ -9,24 +9,30 @@ typedef struct node {
     // struct node* parent; (optional)
 } *RTREE;
 
-// Recursive olarak derinliği bulan fonksiyon
-int findDepth(RTREE root, int target, int level) {
+int findDepth(RTREE root, int target) {
+    static int level = 0;  // Bu değişken her recursive çağrıda güncellenir
+
     if (root == NULL) {
         return -1;  // Düğüm yoksa, geçerli derinlik (-1)
     }
 
+    // Eğer hedef düğüm bulunduysa, derinliği döndür
     if (root->data == target) {
-        return level;  // Eğer hedef düğüm bulunduysa, derinliği döndür
+        return level;
     }
 
-    // Sol alt ağacı kontrol et, derinliği 1 artırarak recursive olarak çağır
-    int leftDepth = findDepth(root->left, target, level + 1);
+    // Derinliği artırarak recursive olarak sol ve sağ alt ağaçları kontrol et
+    level++;
+    int leftDepth = findDepth(root->left, target);
     if (leftDepth != -1) {
         return leftDepth;  // Sol alt ağaçta bulunduysa, sol derinliği döndür
     }
 
-    // Sağ alt ağacı kontrol et, derinliği 1 artırarak recursive olarak çağır
-    return findDepth(root->right, target, level + 1);
+    // Sağ alt ağacı kontrol et
+    int rightDepth = findDepth(root->right, target);
+    level--;  // Sağ alt ağaçta işlem tamamlandığında, derinliği geri al
+
+    return rightDepth;  // Sağ alt ağaçta bulunduysa, sağ derinliği döndür
 }
 
 // Function to find the height of the tree
@@ -162,7 +168,7 @@ int main() {
 
     // Belirli bir düğümün derinliğini bul ve yazdır
     int valueToFindDepth = 40; // Örnek olarak 40 düğümünün derinliğini bulalım
-    int depth = findDepth(root, valueToFindDepth, 0);
+    int depth = findDepth(root, valueToFindDepth);
     if (depth != -1) {
         printf("%d düğümünün derinliği: %d\n", valueToFindDepth, depth);
     } else {
