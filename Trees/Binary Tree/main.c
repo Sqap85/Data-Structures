@@ -38,7 +38,7 @@ int findDepth(RTREE root, int target) {
 // Function to find the height of the tree
 int getHeight(RTREE root) {
     if (root == NULL) {
-        return -1;
+        return 0;
     }
     int leftHeight = getHeight(root->left);
     int rightHeight = getHeight(root->right);
