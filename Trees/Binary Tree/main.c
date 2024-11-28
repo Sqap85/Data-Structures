@@ -6,11 +6,11 @@ typedef struct node {
     int data;
     struct node* left;
     struct node* right;
-} *RTREE;
+} *BTREE;
 
 // Yeni düğüm oluşturma fonksiyonu
-RTREE newNode(int data) {
-    RTREE node = (RTREE)malloc(sizeof(struct node));
+BTREE newNode(int data) {
+    BTREE node = (BTREE)malloc(sizeof(struct node));
     node->data = data;
     node->left = NULL;
     node->right = NULL;
@@ -18,7 +18,7 @@ RTREE newNode(int data) {
 }
 
 // Ağaca eleman ekleme fonksiyonu
-RTREE insert(RTREE root, int data) {
+BTREE insert(BTREE root, int data) {
     if (root == NULL) {
         return newNode(data);
     }
@@ -31,7 +31,7 @@ RTREE insert(RTREE root, int data) {
 }
 
 // Düğüm sayısını döndüren fonksiyon
-int countNodes(RTREE root) {
+int countNodes(BTREE root) {
     if (root == NULL) {
         return 0;
     }
@@ -39,12 +39,12 @@ int countNodes(RTREE root) {
 }
 
 // En küçük elemanı döndüren fonksiyon
-int findMin(RTREE root) {
+int findMin(BTREE root) {
     if (root == NULL) {
         printf("Ağaç boş!\n");
         return -1;
     }
-    RTREE current = root;
+    BTREE current = root;
     while (current->left != NULL) {
         current = current->left;
     }
@@ -52,12 +52,12 @@ int findMin(RTREE root) {
 }
 
 // En büyük elemanı döndüren fonksiyon
-int findMax(RTREE root) {
+int findMax(BTREE root) {
     if (root == NULL) {
         printf("Ağaç boş!\n");
         return -1;
     }
-    RTREE current = root;
+    BTREE current = root;
     while (current->right != NULL) {
         current = current->right;
     }
@@ -65,7 +65,7 @@ int findMax(RTREE root) {
 }
 
 // Ağacın yüksekliğini bulan fonksiyon
-int getHeight(RTREE root) {
+int getHeight(BTREE root) {
     if (root == NULL) {
         return 0;
     }
@@ -74,42 +74,48 @@ int getHeight(RTREE root) {
     return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
 }
 
-// Düğüm silme fonksiyonu
-RTREE delete_node(RTREE root, int x) {
-    if (root == NULL) {
-        return NULL;
-    }
-    if (root->data == x) {
+BTREE delete_node(BTREE root, int x) {
+    BTREE p; // Geçici düğüm pointerı
+
+    if (root == NULL)
+        return NULL; // Ağaç boşsa NULL döner
+
+    if (root->data == x) { // Silinecek düğüm bulundu
+        // Durum 1: Yaprak düğüm
         if (root->left == NULL && root->right == NULL) {
             free(root);
             return NULL;
-        } else if (root->right == NULL) {
-            RTREE temp = root->left;
+        }
+        // Durum 2: Tek çocuklu düğüm
+        else if (root->right == NULL) {
+            p = root->left;
             free(root);
-            return temp;
+            return p;
         } else if (root->left == NULL) {
-            RTREE temp = root->right;
+            p = root->right;
             free(root);
-            return temp;
-        } else {
-            RTREE temp = root->left;
-            while (temp->right != NULL) {
-                temp = temp->right;
-            }
-            root->data = temp->data;
-            root->left = delete_node(root->left, temp->data);
+            return p;
+        }
+        // Durum 3: İki çocuklu düğüm
+        else {
+            p = root->left;
+            while (p->right != NULL)
+                p = p->right; // Sol alt ağacın en sağındaki düğümü bul
+            root->data = p->data; // Veriyi kopyala
+            root->left = delete_node(root->left, p->data); // Sil
             return root;
         }
     } else if (root->data < x) {
-        root->right = delete_node(root->right, x);
+        root->right = delete_node(root->right, x); // Sağ alt ağaçta ara
+        return root;
     } else {
-        root->left = delete_node(root->left, x);
+        root->left = delete_node(root->left, x); // Sol alt ağaçta ara
+        return root;
     }
-    return root;
 }
 
 // Inorder gezinme (left-root-right)
-void inorder(RTREE root) {
+void inorder(BTREE root) {
     if (root != NULL) {
         inorder(root->left);
         printf("%d ", root->data);
@@ -118,7 +124,7 @@ void inorder(RTREE root) {
 }
 
 // Preorder gezinme (root-left-right)
-void preorder(RTREE root) {
+void preorder(BTREE root) {
     if (root != NULL) {
         printf("%d ", root->data);
         preorder(root->left);
@@ -127,7 +133,7 @@ void preorder(RTREE root) {
 }
 
 // Postorder gezinme (left-right-root)
-void postorder(RTREE root) {
+void postorder(BTREE root) {
     if (root != NULL) {
         postorder(root->left);
         postorder(root->right);
@@ -136,7 +142,7 @@ void postorder(RTREE root) {
 }
 
 int main() {
-    RTREE root = NULL;
+    BTREE root = NULL;
 
     // Ağaca eleman ekleme
     root = insert(root, 50);
