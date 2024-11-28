@@ -1,4 +1,4 @@
-// 85 is biggest
+// 85 is biggest.
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,44 +6,7 @@ typedef struct node {
     int data;
     struct node* left;
     struct node* right;
-    // struct node* parent; (optional)
 } *RTREE;
-
-int findDepth(RTREE root, int target) {
-    static int level = 0;  // Bu değişken her recursive çağrıda güncellenir
-
-    if (root == NULL) {
-        return -1;  // Düğüm yoksa, geçerli derinlik (-1)
-    }
-
-    // Eğer hedef düğüm bulunduysa, derinliği döndür
-    if (root->data == target) {
-        return level;
-    }
-
-    // Derinliği artırarak recursive olarak sol ve sağ alt ağaçları kontrol et
-    level++;
-    int leftDepth = findDepth(root->left, target);
-    if (leftDepth != -1) {
-        return leftDepth;  // Sol alt ağaçta bulunduysa, sol derinliği döndür
-    }
-
-    // Sağ alt ağacı kontrol et
-    int rightDepth = findDepth(root->right, target);
-    level--;  // Sağ alt ağaçta işlem tamamlandığında, derinliği geri al
-
-    return rightDepth;  // Sağ alt ağaçta bulunduysa, sağ derinliği döndür
-}
-
-// Function to find the height of the tree
-int getHeight(RTREE root) {
-    if (root == NULL) {
-        return 0;
-    }
-    int leftHeight = getHeight(root->left);
-    int rightHeight = getHeight(root->right);
-    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
-}
 
 // Yeni düğüm oluşturma fonksiyonu
 RTREE newNode(int data) {
@@ -70,7 +33,7 @@ RTREE insert(RTREE root, int data) {
 // Düğüm sayısını döndüren fonksiyon
 int countNodes(RTREE root) {
     if (root == NULL) {
-        return 0;  // Düğüm yoksa 0 döner
+        return 0;
     }
     return 1 + countNodes(root->left) + countNodes(root->right);
 }
@@ -79,10 +42,9 @@ int countNodes(RTREE root) {
 int findMin(RTREE root) {
     if (root == NULL) {
         printf("Ağaç boş!\n");
-        return -1; // Ağaç boşsa -1 döndür
+        return -1;
     }
     RTREE current = root;
-    // En sol düğümü bulana kadar sola git
     while (current->left != NULL) {
         current = current->left;
     }
@@ -93,17 +55,60 @@ int findMin(RTREE root) {
 int findMax(RTREE root) {
     if (root == NULL) {
         printf("Ağaç boş!\n");
-        return -1; // Ağaç boşsa -1 döndür
+        return -1;
     }
     RTREE current = root;
-    // En sağ düğümü bulana kadar sağa git
     while (current->right != NULL) {
         current = current->right;
     }
     return current->data;
 }
 
-// Inorder gezinme (Küçükten büyüğe sıralama) (left-root-right)
+// Ağacın yüksekliğini bulan fonksiyon
+int getHeight(RTREE root) {
+    if (root == NULL) {
+        return 0;
+    }
+    int leftHeight = getHeight(root->left);
+    int rightHeight = getHeight(root->right);
+    return (leftHeight > rightHeight ? leftHeight : rightHeight) + 1;
+}
+
+// Düğüm silme fonksiyonu
+RTREE delete_node(RTREE root, int x) {
+    if (root == NULL) {
+        return NULL;
+    }
+    if (root->data == x) {
+        if (root->left == NULL && root->right == NULL) {
+            free(root);
+            return NULL;
+        } else if (root->right == NULL) {
+            RTREE temp = root->left;
+            free(root);
+            return temp;
+        } else if (root->left == NULL) {
+            RTREE temp = root->right;
+            free(root);
+            return temp;
+        } else {
+            RTREE temp = root->left;
+            while (temp->right != NULL) {
+                temp = temp->right;
+            }
+            root->data = temp->data;
+            root->left = delete_node(root->left, temp->data);
+            return root;
+        }
+    } else if (root->data < x) {
+        root->right = delete_node(root->right, x);
+    } else {
+        root->left = delete_node(root->left, x);
+    }
+    return root;
+}
+
+// Inorder gezinme (left-root-right)
 void inorder(RTREE root) {
     if (root != NULL) {
         inorder(root->left);
@@ -132,6 +137,8 @@ void postorder(RTREE root) {
 
 int main() {
     RTREE root = NULL;
+
+    // Ağaca eleman ekleme
     root = insert(root, 50);
     insert(root, 30);
     insert(root, 20);
@@ -139,7 +146,9 @@ int main() {
     insert(root, 70);
     insert(root, 60);
     insert(root, 80);
+    insert(root, 85); // En büyük eleman
 
+    // Inorder, Preorder, Postorder sıralamalarını yazdır
     printf("Inorder traversal: ");
     inorder(root);
     printf("\n");
@@ -152,28 +161,25 @@ int main() {
     postorder(root);
     printf("\n");
 
-    // Düğüm sayısını hesapla ve yazdır
-    int nodeCount = countNodes(root);
-    printf("Düğüm sayısı: %d\n", nodeCount);
+    // Düğüm sayısını yazdır
+    printf("Düğüm sayısı: %d\n", countNodes(root));
 
-    // En küçük ve en büyük elemanları bul ve yazdır
-    int minValue = findMin(root);
-    int maxValue = findMax(root);
-    printf("En küçük eleman: %d\n", minValue);
-    printf("En büyük eleman: %d\n", maxValue);
+    // En küçük ve en büyük elemanları yazdır
+    printf("En küçük eleman: %d\n", findMin(root));
+    printf("En büyük eleman: %d\n", findMax(root));
 
-    // Ağacın yüksekliğini bul ve yazdır
-    int height = getHeight(root);
-    printf("Ağacın yüksekliği: %d\n", height);
+    // Ağacın yüksekliğini yazdır
+    printf("Ağacın yüksekliği: %d\n", getHeight(root));
 
-    // Belirli bir düğümün derinliğini bul ve yazdır
-    int valueToFindDepth = 40; // Örnek olarak 40 düğümünün derinliğini bulalım
-    int depth = findDepth(root, valueToFindDepth);
-    if (depth != -1) {
-        printf("%d düğümünün derinliği: %d\n", valueToFindDepth, depth);
-    } else {
-        printf("%d düğümü ağaçta bulunamadı.\n", valueToFindDepth);
-    }
+    // Silme işlemi örneği
+    int valueToDelete = 50;
+    printf("\n%d düğümü siliniyor...\n", valueToDelete);
+    root = delete_node(root, valueToDelete);
+
+    // Silme sonrası Inorder sıralaması
+    printf("Inorder traversal after deletion: ");
+    inorder(root);
+    printf("\n");
 
     return 0;
 }
