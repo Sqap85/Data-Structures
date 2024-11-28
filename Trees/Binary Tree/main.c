@@ -75,45 +75,57 @@ int getHeight(BTREE root) {
 }
 
 BTREE delete_node(BTREE root, int x) {
-    BTREE p; // Geçici düğüm pointerı
+    BTREE p, q;
 
-    if (root == NULL)
-        return NULL; // Ağaç boşsa NULL döner
+    if (root == NULL) { 
+        // Eğer ağaç boşsa NULL döner.
+        return NULL;
+    }
 
-    if (root->data == x) { // Silinecek düğüm bulundu
-        // Durum 1: Yaprak düğüm
-        if (root->left == NULL && root->right == NULL) {
+    if (root->data == x) {
+        // 1. DURUM: Yaprak düğüm (Sol ve sağ alt ağaç yok).
+        if (root->left == NULL && root->right == NULL) { 
             free(root);
             return NULL;
+        } 
+        // 2. DURUM: Tek çocuklu düğüm (Sadece sağ alt ağaç veya sadece sol alt ağaç var).
+        else { 
+            if (root->left == NULL) { 
+                // Sol alt ağaç yoksa, sağ alt ağacı geri döndür.
+                p = root->right;
+                free(root);
+                return p;
+            } else if (root->right == NULL) { 
+                // Sağ alt ağaç yoksa, sol alt ağacı geri döndür.
+                p = root->left;
+                free(root);
+                return p;
+            } 
+            // 3. DURUM: İki çocuklu düğüm (Hem sol hem sağ alt ağaç var).
+            else { 
+                // Sağ alt ağacın en küçük elemanını bul ve kök yerine koy.
+                p = q = root->right;
+                while (p->left != NULL) { 
+                    p = p->left;
+                }
+                // En küçük düğümü, sol alt ağacı kökün soluna bağlayarak taşır.
+                p->left = root->left;
+                free(root);
+                return q; // Sağ alt ağacın kökünü yeni kök yapar.
+            }
         }
-        // Durum 2: Tek çocuklu düğüm
-        else if (root->right == NULL) {
-            p = root->left;
-            free(root);
-            return p;
-        } else if (root->left == NULL) {
-            p = root->right;
-            free(root);
-            return p;
-        }
-        // Durum 3: İki çocuklu düğüm
-        else {
-            p = root->left;
-            while (p->right != NULL)
-                p = p->right; // Sol alt ağacın en sağındaki düğümü bul
-            root->data = p->data; // Veriyi kopyala
-            root->left = delete_node(root->left, p->data); // Sil
-            return root;
-        }
-    } else if (root->data < x) {
-        root->right = delete_node(root->right, x); // Sağ alt ağaçta ara
-        return root;
-    } else {
-        root->left = delete_node(root->left, x); // Sol alt ağaçta ara
-        return root;
+    } 
+    // Eğer silinecek düğümün değeri kökten büyükse, sağ alt ağaçta ara.
+    else if (root->data < x) { 
+        root->right = delete_node(root->right, x);
+    } 
+    // Eğer silinecek düğümün değeri kökten küçükse, sol alt ağaçta ara.
+    else { 
+        root->left = delete_node(root->left, x);
     }
-}
 
+    return root; // Güncellenmiş kökü döndür.
+}
 // Inorder gezinme (left-root-right)
 void inorder(BTREE root) {
     if (root != NULL) {
