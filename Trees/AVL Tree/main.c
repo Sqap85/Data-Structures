@@ -31,24 +31,24 @@ int maxValue(int a, int b) {
 
 // Sağ dönüş
 AVLTREE* rightRotate(AVLTREE* z) {
-    AVLTREE* temp = z->left;
-    z->left = temp->right;
-    temp->right = z;
+    AVLTREE* y = z->left;
+    z->left = y->right;
+    y->right = z;
 
     z->height = maxValue(height(z->left), height(z->right)) + 1;
-    temp->height = maxValue(height(temp->left), height(temp->right)) + 1;
-    return temp;  // Sağ dönüş sonucu döndürülür.
+    y->height = maxValue(height(y->left), height(y->right)) + 1;
+    return y;  // Sağ dönüş sonucu döndürülür.
 }
 
 // Sol dönüş
 AVLTREE* leftRotate(AVLTREE* z) {
-    AVLTREE* temp = z->right;
-    z->right = temp->left;
-    temp->left = z;
+    AVLTREE* y = z->right;
+    z->right = y->left;
+    y->left = z;
 
     z->height = maxValue(height(z->left), height(z->right)) + 1;
-    temp->height = maxValue(height(temp->left), height(temp->right)) + 1;
-    return temp;  // Sol dönüş sonucu döndürülür.
+    y->height = maxValue(height(y->left), height(y->right)) + 1;
+    return y;  // Sol dönüş sonucu döndürülür.
 }
 
 // Sol-Sağ dönüş
