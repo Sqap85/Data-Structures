@@ -15,13 +15,13 @@ AVLTREE* newNode(int data) {
     node->data = data;
     node->left = NULL;
     node->right = NULL;
-    node->height = 1;
+    node->height = 0;
     return node;
 }
 
 // Düğüm yüksekliği
 int height(AVLTREE* node) {
-    return node ? node->height : 0;
+    return node ? node->height : -1;
 }
 
 // Maksimum değer
@@ -196,4 +196,20 @@ int main() {
     preOrder(root);
 
     return 0;
+    /*
+        30
+       /  \
+     20    40
+    / \      \
+   10 25     50
+   Preorder Traversal Sonucu: 30 20 10 25 40 50
+   
+   Silme İşlemi (20’nin Silinmesi)
+        30
+       /  \
+     25    40
+    /        \
+   10        50
+   Preorder Traversal Sonucu: 30 25 10 40 50
+   */
 }
