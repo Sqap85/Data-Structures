@@ -15,6 +15,48 @@ left(i) = 2*i
 right(i) = 2*i+1
 
 not:Kök (Root) Her Zaman En Küçük Elemandır
+
+Min-Heap Temsili:
+Ağaç yapısının dizi biçimindeki karşılığı şu şekilde olabilir:
+
+    [2, 5, 10, 30, 20, 50]
+
+Bu diziyi bir ikili ağaç şeklinde görselleştirelim:
+
+          2
+         / \
+        5   10
+       / \  / \
+      30 20 50
+
+Dizideki elemanlar, Min-Heap kurallarına uygun olarak sıralanmıştır:
+- Kök her zaman en küçük eleman olan 2'yi tutar.
+- Her çocuk, ebeveyninden büyük veya eşittir.
+- Ağaç tam ikili bir yapıya sahiptir ve son seviyedeki düğümler soldan sağa doğru sıralanmıştır.
+
+Dizi formundaki temsili şu şekilde daha açık gösterebiliriz:
+
+Dizi: [2, 5, 10, 30, 20, 50]
+
+- A[1] → 2 (kök, en küçük eleman)
+- A[2] → 5 (sol çocuk)
+- A[3] → 10 (sağ çocuk)
+- A[4] → 30 (sol alt çocuk)
+- A[5] → 20 (sağ alt çocuk)
+- A[6] → 50 (sağ alt çocuk)
+
+Hesaplamalar:
+- A[1] kök olduğu için ebeveyni yoktur, ancak:
+  parent(1) = 1 / 2 = 0 (geçersiz, kök)
+- A[2]'nin ebeveyni:
+  parent(2) = 2 / 2 = 1 (A[1] → 2)
+  A[2] için sol çocuk: left(2) = 2 * 2 = 4 (A[4] → 30)
+  A[2] için sağ çocuk: right(2) = 2 * 2 + 1 = 5 (A[5] → 20)
+- A[3]'ün ebeveyni:
+  parent(3) = 3 / 2 = 1 (A[1] → 2)
+  A[3] için sol çocuk: left(3) = 2 * 3 = 6 (A[6] → 50)
+  A[3] için sağ çocuk yoktur çünkü A[7] yok.
+
  */
 typedef struct {
     int A[MAX_SIZE + 1]; // Dizi 1'den başlasın diye +1
