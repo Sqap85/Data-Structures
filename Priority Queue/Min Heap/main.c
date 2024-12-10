@@ -10,6 +10,10 @@ Min-Heap Kuralları:
 2) Her Seviye Tamamen Dolu Olmalıdır (Tam İkili Ağaç)
 3) Son Seviyede Düğümler Soldan Sağa Dolu Olmalıdır
 
+parent(i)= i/2
+left(i) = 2*i
+right(i) = 2*i+1
+
 not:Kök (Root) Her Zaman En Küçük Elemandır
  */
 typedef struct {
